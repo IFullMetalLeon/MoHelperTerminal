@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using MoHelperTerminal.View;
+using Plugin.Settings;
 
 namespace MoHelperTerminal
 {
@@ -11,6 +12,9 @@ namespace MoHelperTerminal
         {
             InitializeComponent();
 
+            CrossSettings.Current.AddOrUpdateValue("BarcodeEvent", "android.intent.ACTION_DECODE_DATA");
+            CrossSettings.Current.AddOrUpdateValue("BarcodeString", "barcode_string");
+            CrossSettings.Current.AddOrUpdateValue("TerminalNumber", "a_0");
             MainPage = new MainPage();
         }
 

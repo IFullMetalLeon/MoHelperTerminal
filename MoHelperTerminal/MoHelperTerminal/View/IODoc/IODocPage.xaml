@@ -4,12 +4,32 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="MoHelperTerminal.View.IODoc.IODocPage">
+             x:Class="MoHelperTerminal.View.IODoc.IODocPage"
+             Title="Прием товара">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="{Binding DocNumb}" HorizontalTextAlignment="Center"/>
+            <Label Text="{Binding DocDate}" HorizontalTextAlignment="Center"/>
+            <ListView x:Name="ioDocSpec"
+                      ItemsSource="{Binding ListSpec}"
+                      SeparatorVisibility="Default"
+                      HasUnevenRows="True"
+                      SelectedItem="{Binding SelectedSpec,Mode=TwoWay}"
+                      ItemSelected="ioDocSpec_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Orientation="Horizontal" >
+                                    <Label Text="{Binding ModifName}"/>
+                                    <Label Text="{Binding QuantFact}"/>
+                                    <Label Text="{Binding Quant}"/>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

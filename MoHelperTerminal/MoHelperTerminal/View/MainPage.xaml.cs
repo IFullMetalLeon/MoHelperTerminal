@@ -17,5 +17,11 @@ namespace MoHelperTerminal.View
             InitializeComponent();
             Detail = new NavigationPage(new IODocPage());
         }
+
+        private void IODoc_Clicked(object sender, EventArgs e)
+        {
+            IsPresented = false;
+            Detail = new NavigationPage(new IODocPage());
+        }
     }
 }

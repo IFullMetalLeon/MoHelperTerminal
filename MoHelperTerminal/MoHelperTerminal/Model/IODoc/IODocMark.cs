@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace MoHelperTerminal.Model.IODoc
 {
@@ -99,6 +100,23 @@ namespace MoHelperTerminal.Model.IODoc
             }
         }
 
+        private string _boxNum { get; set; }
+        public string BoxNum
+        {
+            get
+            {
+                return _boxNum;
+            }
+            set
+            {
+                if (_boxNum != value)
+                {
+                    _boxNum = value;
+                    OnPropertyChanged("BoxNum");
+                }
+            }
+        }
+
         private bool _isSelected { get; set; }
         public bool IsSelected
         {
@@ -114,6 +132,17 @@ namespace MoHelperTerminal.Model.IODoc
                     OnPropertyChanged("IsSelected");
                 }
             }
+        }
+    }
+
+    public class Grouping<K, T> : ObservableCollection<T>
+    {
+        public K Name { get; private set; }
+        public Grouping(K name, IEnumerable<T> items)
+        {
+            Name = name;
+            foreach (T item in items)
+                Items.Add(item);
         }
     }
 }

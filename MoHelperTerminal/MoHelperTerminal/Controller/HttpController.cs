@@ -133,14 +133,14 @@ namespace MoHelperTerminal.Controller
             }
         }
 
-        public static async void SendGetIODocMark(string doc_rn,string box_rn)
+        public static async void SendGetIODocMark(string doc_rn,string nommodif)
         {
             try
             {
                 HttpClient http = new HttpClient();
                 http.Timeout = TimeSpan.FromMinutes(5);
 
-                string param = "?type=io_doc_mark&doc_rn=" + doc_rn + "&box_rn=" + box_rn;
+                string param = "?type=io_doc_mark&doc_rn=" + doc_rn + "&nommodif=" + nommodif;
 
                 http.BaseAddress = new Uri(httpMainUrl + param);
                 http.DefaultRequestHeaders.Accept.Clear();

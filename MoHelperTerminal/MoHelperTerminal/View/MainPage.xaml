@@ -7,7 +7,7 @@
              x:Class="MoHelperTerminal.View.MainPage">
     <MasterDetailPage.Master>
         <ContentPage Title="Меню">
-            <Label Text="123"/>
+            <Button x:Name="IODoc" Text="Прием товара" Clicked="IODoc_Clicked"/>
         </ContentPage>
 
     </MasterDetailPage.Master>

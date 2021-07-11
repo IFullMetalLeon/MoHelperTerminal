@@ -25,7 +25,7 @@ namespace MoHelperTerminal.Controller
         public class GetIODocSpecResponce
         {
             public string TC_RN { get; set; }
-            public string NOMODIF { get; set; }
+            public string NOMMODIF { get; set; }
             public string MODIF_NAME { get; set; }
             public string QUANT_TCS { get; set; }
             public string QUANT_FACT { get; set; }           
@@ -48,6 +48,7 @@ namespace MoHelperTerminal.Controller
             public string TC_RN { get; set; }
             public string PREF { get; set; }
             public string NUMB { get; set; }
+            public string BOX_NUM { get; set; }
             public string IS_SCANED { get; set; }
             public string MODIF_NAME { get; set; }
         }
