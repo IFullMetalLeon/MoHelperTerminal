@@ -14,8 +14,10 @@
                       ItemsSource="{Binding ListSpec}"
                       SeparatorVisibility="Default"
                       HasUnevenRows="True"
-                      SelectedItem="{Binding SelectedSpec,Mode=TwoWay}"
-                      ItemSelected="ioDocSpec_ItemSelected">
+                      SelectedItem="{Binding SelectedSpec,Mode=TwoWay}">
+                <ListView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding showMark}"/>
+                </ListView.GestureRecognizers>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

@@ -117,6 +117,17 @@ namespace MoHelperTerminal.Model.IODoc
             }
         }
 
+        public string MarkTC
+        {
+            get
+            {
+                if (IsScaned)
+                    return "Green";
+                else
+                    return "Orange";
+            }
+        }
+
         private bool _isSelected { get; set; }
         public bool IsSelected
         {

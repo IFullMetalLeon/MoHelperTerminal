@@ -32,9 +32,5 @@ namespace MoHelperTerminal.View.IODoc
             iodpvm.endPage();
         }
 
-        private void ioDocSpec_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            iodpvm.showMark();
-        }
     }
 }

@@ -23,7 +23,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout>
+                            <StackLayout BackgroundColor="{Binding MarkTC}">
                                 <Label Text="{Binding ModifName}" />
                                 <Label>
                                     <Label.FormattedText>

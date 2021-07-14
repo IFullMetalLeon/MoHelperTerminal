@@ -23,6 +23,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
 
         public string boxRn { get; set; }
         public string quant { get; set; }
+        public bool isBoxQuantShow { get; set; }
 
         public IODocPageVM()
         {
@@ -33,6 +34,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
             DocRn = "0";
             boxRn = "0";
             quant = "0";
+            isBoxQuantShow = false;
         }
 
         public void startPage()
@@ -71,7 +73,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
         public void work(string _barcode)
         {
             //UserDialogs.Instance.Loading("Обмен данными");
-            HttpController.SendPostDocSpec(TerminalNumber, _barcode, DocRn, boxRn, "1", quant, "PostIODocSend");
+            HttpController.SendPostDocSpec(TerminalNumber, _barcode, DocRn, boxRn, "1", "0", "PostIODocSend");
         }
 
         public void PostResponce(string content)
@@ -79,11 +81,45 @@ namespace MoHelperTerminal.ViewModel.IODoc
             if (content.Length > 2)
             {
                 PostIODocResponce resp = JsonConvert.DeserializeObject<PostIODocResponce>(content, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                if (resp.type == "-1")  //Ошибка
+                {
+                    showError(resp.comment);
+                }
                 if (resp.type == "1")  //Документ
                 {
                     DocRn = resp.doc_rn;
+                    quant = "0";
                     HttpController.SendGetIODocHead(DocRn);
-
+                }
+                if (resp.type == "2")  //Коробка
+                {
+                    boxRn = resp.box_rn;
+                    quant = resp.pack_quant;
+                    checkBoxQuant("",resp.comment + "\n\nВ коробке " + quant + " бутылок?");
+                }
+                if (resp.type == "3")  //Марка
+                {
+                    foreach (IODocSpec tmp in ListSpec)
+                    {
+                        if (tmp.Rn == resp.nommodif)
+                        {
+                            SelectedSpec = new IODocSpec { Rn = tmp.Rn, ModifName = tmp.ModifName, Quant = tmp.Quant, QuantFact = tmp.QuantFact, IsSelected = tmp.IsSelected };
+                        }
+                    }
+                }
+                if (resp.type == "4")  //Автозаполнение коробки
+                {
+                    UserDialogs.Instance.Alert(resp.comment);
+                }
+                if (resp.type == "5")  //Кол-во в коробке не совпадает с кол-вом по документу
+                {
+                    foreach (IODocSpec tmp in ListSpec)
+                    {
+                        if (tmp.Rn == resp.nommodif)
+                        {
+                            SelectedSpec = new IODocSpec { Rn = tmp.Rn, ModifName = tmp.ModifName, Quant = tmp.Quant, QuantFact = tmp.QuantFact, IsSelected = tmp.IsSelected };
+                        }
+                    }
                 }
                 HttpController.SendGetIODocSpec(DocRn);
             }
@@ -125,6 +161,21 @@ namespace MoHelperTerminal.ViewModel.IODoc
         {
             if (SelectedSpec != null && SelectedSpec.Rn != null)
                 Navigation.PushAsync(new IODocMarkPage(DocRn,SelectedSpec.Rn,SelectedSpec.ModifName));
+        }
+
+        public async void checkBoxQuant(string title,string content)
+        {
+            var result = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
+            {
+                Title = title,
+                Message = content,
+                OkText = "Да",
+                CancelText = "Нет"
+            });
+            if (result)
+                HttpController.SendPostDocSpec(TerminalNumber, "0", DocRn, boxRn, "1", quant, "PostIODocSend");           
+            else
+                HttpController.SendPostDocSpec(TerminalNumber, "0", DocRn, boxRn, "1", "-1", "PostIODocSend");
         }
 
         public void showError(string error)

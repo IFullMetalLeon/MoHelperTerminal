@@ -58,8 +58,9 @@ namespace MoHelperTerminal.ViewModel.IODoc
                 List<GetIODocMarkResponce> resp = JsonConvert.DeserializeObject<List<GetIODocMarkResponce>>(content, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
                 List<IODocMark> tmp = new List<IODocMark>();
                 foreach (GetIODocMarkResponce cur in resp)
-                {
-                    tmp.Add(new IODocMark { Rn = cur.RN, Pref = cur.PREF, Numb = cur.NUMB, ModifName = cur.MODIF_NAME, BoxNum = cur.BOX_NUM });
+                {                 
+                    tmp.Add(new IODocMark { Rn = cur.RN, Pref = cur.PREF, Numb = cur.NUMB, ModifName = cur.MODIF_NAME, BoxNum = cur.BOX_NUM, IsScaned = cur.IS_SCANED == "0" ? false:true });
+                                            
                 }
                 var groups = tmp.GroupBy(p => p.BoxNum).Select(g => new Grouping<string, IODocMark>(g.Key, g));
                 // передаем группы в PhoneGroups
