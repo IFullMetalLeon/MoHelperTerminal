@@ -92,6 +92,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
                     DocRn = resp.doc_rn;
                     quant = "0";
                     HttpController.SendGetIODocHead(DocRn);
+                    
                 }
                 if (resp.type == "2")  //Коробка
                 {
@@ -101,13 +102,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
                 }
                 if (resp.type == "3")  //Марка
                 {
-                    foreach (IODocSpec tmp in ListSpec)
-                    {
-                        if (tmp.Rn == resp.nommodif)
-                        {
-                            SelectedSpec = new IODocSpec { Rn = tmp.Rn, ModifName = tmp.ModifName, Quant = tmp.Quant, QuantFact = tmp.QuantFact, IsSelected = tmp.IsSelected };
-                        }
-                    }
+
                 }
                 if (resp.type == "4")  //Автозаполнение коробки
                 {
@@ -115,11 +110,15 @@ namespace MoHelperTerminal.ViewModel.IODoc
                 }
                 if (resp.type == "5")  //Кол-во в коробке не совпадает с кол-вом по документу
                 {
+                    
+                }
+                if (!String.IsNullOrEmpty(resp.nommodif))
+                {
                     foreach (IODocSpec tmp in ListSpec)
                     {
                         if (tmp.Rn == resp.nommodif)
                         {
-                            SelectedSpec = new IODocSpec { Rn = tmp.Rn, ModifName = tmp.ModifName, Quant = tmp.Quant, QuantFact = tmp.QuantFact, IsSelected = tmp.IsSelected };
+                            SelectedSpec = new IODocSpec { Rn = tmp.Rn, ModifName = tmp.ModifName, Quant = tmp.Quant, QuantFact = tmp.QuantFact, IsSelected = true };
                         }
                     }
                 }
@@ -152,7 +151,9 @@ namespace MoHelperTerminal.ViewModel.IODoc
                 foreach(GetIODocSpecResponce cur in resp)
                 {
                     ListSpec.Add(new IODocSpec { Rn = cur.NOMMODIF, ModifName = cur.MODIF_NAME, QuantFact = cur.QUANT_FACT, Quant = cur.QUANT_TCS });
-                }              
+                }
+                if (SelectedSpec != null && SelectedSpec.Rn != null)
+                    MessagingCenter.Send<string, IODocSpec>("SelectedSpecXaml", "Scroll", SelectedSpec);
             }
             else
                 showError("Ошибка получения спецификаций документа");
