@@ -5,19 +5,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="MoHelperTerminal.View.IODoc.IODocPage"
-             Title="Прием товара">
+             Title="Прием товара"
+             x:Name="IODocPageView">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding DocNumb}" HorizontalTextAlignment="Center"/>
-            <Label Text="{Binding DocDate}" HorizontalTextAlignment="Center"/>
+            <Label Text="{Binding Path=BindingContext.DocNumb, Source={x:Reference IODocPageView}}" HorizontalTextAlignment="Center"/>
+            <Label Text="{Binding Path=BindingContext.DocDate, Source={x:Reference IODocPageView}}" HorizontalTextAlignment="Center"/>
             <ListView x:Name="ioDocSpec"
                       ItemsSource="{Binding ListSpec}"
                       SeparatorVisibility="Default"
                       HasUnevenRows="True"
                       SelectedItem="{Binding SelectedSpec,Mode=TwoWay}">
-                <ListView.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding showMark}"/>
-                </ListView.GestureRecognizers>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -26,6 +24,7 @@
                                     <Label Text="{Binding ModifName}"/>
                                     <Label Text="{Binding QuantFact}"/>
                                     <Label Text="{Binding Quant}"/>
+                                    <Button Text="W" IsVisible="{Binding IsSelected}" Command="{Binding Path=BindingContext.OpenMarkPage, Source={x:Reference IODocPageView}}"/>
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>

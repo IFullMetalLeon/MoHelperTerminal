@@ -19,9 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="View\IODoc\IODocBoxPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="View\IODoc\IODocMarkPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

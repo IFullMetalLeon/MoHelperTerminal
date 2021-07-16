@@ -33,6 +33,10 @@ namespace MoHelperTerminal.ViewModel.IODoc
             {
                 work(arg.Trim());
             });
+            MessagingCenter.Subscribe<string, string>("HttpControler", "PostIOMarkSend", (sender, arg) =>
+            {
+                PostResponce(arg.Trim());
+            });
             MessagingCenter.Subscribe<string, string>("HttpControler", "GetIODocMark", (sender, arg) =>
             {
                 fillList(arg.Trim());
@@ -47,7 +51,27 @@ namespace MoHelperTerminal.ViewModel.IODoc
         public void endPage()
         {
             MessagingCenter.Unsubscribe<string, string>("MainActivity", "GetBarcode");
+            MessagingCenter.Unsubscribe<string, string>("HttpControler", "GetIODocMark");
+            MessagingCenter.Unsubscribe<string, string>("HttpControler", "PostIOMarkSend");
             MessagingCenter.Unsubscribe<string, string>("HttpControler", "Error");
+        }
+
+        public void PostResponce(string content)
+        {
+            if (content.Length > 2)
+            {
+                PostIODocResponce resp = JsonConvert.DeserializeObject<PostIODocResponce>(content, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                if (resp.type == "-1")  //Ошибка
+                {
+                    showError(resp.comment);
+                }               
+                if (resp.type == "3")  //Марка
+                {
+                    HttpController.SendGetIODocMark(DocRn, NommodifRn);
+                }                               
+            }
+            else
+                showError("Ошибка распознования штрихкода");
         }
 
         public void fillList(string content)
@@ -74,7 +98,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
         public void work(string _barcode)
         {
             //UserDialogs.Instance.Loading("Обмен данными");
-            //HttpController.SendPostDocSpec(TerminalNumber, _barcode, DocRn, boxRn, "1", quant, "PostIODocSend");
+            HttpController.SendPostDocSpec(TerminalNumber, _barcode, DocRn, "0", "1", "0", "PostIOMarkSend");
         }
 
         public void showError(string error)

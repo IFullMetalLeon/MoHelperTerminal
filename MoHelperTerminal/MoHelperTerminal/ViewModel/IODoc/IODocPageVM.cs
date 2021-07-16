@@ -12,6 +12,7 @@ using MoHelperTerminal.Model;
 using MoHelperTerminal.Model.IODoc;
 using MoHelperTerminal.View.IODoc;
 using static MoHelperTerminal.Controller.HttpJsonItem;
+using System.Windows.Input;
 
 namespace MoHelperTerminal.ViewModel.IODoc
 {
@@ -20,7 +21,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
 
         public ObservableCollection<IODocSpec> ListSpec { get; set; }
         public INavigation Navigation { get; set; }
-
+        public ICommand OpenMarkPage { get; set; }
         public string boxRn { get; set; }
         public string quant { get; set; }
         public bool isBoxQuantShow { get; set; }
@@ -30,6 +31,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
             TerminalNumber = CrossSettings.Current.GetValueOrDefault("TerminalNumber", "");
             ListSpec = new ObservableCollection<IODocSpec>();
             SelectedSpec = new IODocSpec();
+            OpenMarkPage = new Command(showMark);
 
             DocRn = "0";
             boxRn = "0";
