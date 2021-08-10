@@ -74,7 +74,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
 
         public void work(string _barcode)
         {
-            //UserDialogs.Instance.Loading("Обмен данными");
+            UserDialogs.Instance.ShowLoading("Обмен данными");
             HttpController.SendPostDocSpec(TerminalNumber, _barcode, DocRn, boxRn, "1", "0", "PostIODocSend");
         }
 

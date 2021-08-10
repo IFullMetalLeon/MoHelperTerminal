@@ -7,7 +7,76 @@
              x:Class="MoHelperTerminal.View.MainPage">
     <MasterDetailPage.Master>
         <ContentPage Title="Меню">
-            <Button x:Name="IODoc" Text="Прием товара" Clicked="IODoc_Clicked"/>
+            <Grid BackgroundColor="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="7*"/>
+                </Grid.RowDefinitions>
+                <Frame Grid.Row="0" Margin="5">
+                    <StackLayout>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Виноград"/>
+                                    <Span Text="&#xA;"/>
+                                    <Span Text="Мобильный терминал"/>
+                                    <Span Text="&#xA;"/>
+                                    <Span Text="Версия"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <BoxView Grid.Row="2" BackgroundColor="#D6DFE5" HeightRequest="1"/>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Магазин"/>
+                                    <Span Text="&#xA;"/>
+                                    <Span Text="Терминал"/>
+                                    
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <BoxView Grid.Row="2" BackgroundColor="#D6DFE5" HeightRequest="1"/>
+                    </StackLayout>
+                </Frame>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="6*"/>
+                    </Grid.RowDefinitions>
+                    <Frame Grid.Row="0" HasShadow="False" Margin="0" Padding="0">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="IODoc_Clicked"/>
+                        </Frame.GestureRecognizers>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="8*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" FontFamily="Segoe MDL2 Assets.ttf#Segoe MDL2 Assets" Text="&#xE7BF;" FontSize="20" VerticalTextAlignment="Center"/>
+                            <Label Grid.Column="1" Text="Прием товара" FontSize="16" TextColor="#000000" VerticalOptions="Center" Margin="20,0,0,0"/>
+                        </Grid>
+                    </Frame>
+                    <Frame Grid.Row="0" HasShadow="False" Margin="1" Padding="0">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="IODoc_Clicked"/>
+                        </Frame.GestureRecognizers>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="8*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" FontFamily="Segoe MDL2 Assets.ttf#Segoe MDL2 Assets" Text="&#xE7BF;" FontSize="20" VerticalTextAlignment="Center"/>
+                            <Label Grid.Column="1" Text="Настройки" FontSize="16" TextColor="#000000" VerticalOptions="Center" Margin="20,0,0,0"/>
+                        </Grid>
+                    </Frame>
+                </Grid>
+
+            </Grid>
+            
+            
         </ContentPage>
 
     </MasterDetailPage.Master>
