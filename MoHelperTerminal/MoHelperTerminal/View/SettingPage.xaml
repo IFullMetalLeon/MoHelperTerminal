@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MoHelperTerminal.View.SettingPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <TableView>
+                <TableView.Root>
+                    <TableSection Title="Настройки">
+                        <EntryCell x:Name="tern_num" Label="Номер терминала" Text="{Binding TerminalNumber,Mode=TwoWay}"/>
+                        <EntryCell x:Name="shop_number" Label="Номер магазина" Text="{Binding ShopNumber}"/>
+                        <EntryCell x:Name="barcode_event" Label="Событие сканирования" Text="{Binding BarcodeEvent}"/>
+                        <EntryCell x:Name="barcode_string" Label="Строка сканирования" Text="{Binding BarcodeString}"/>
+                    </TableSection>
+                </TableView.Root>
+            </TableView>
+            <Button x:Name="save_setting" Text="Сохранить настройки" Command="{Binding SaveSetting}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

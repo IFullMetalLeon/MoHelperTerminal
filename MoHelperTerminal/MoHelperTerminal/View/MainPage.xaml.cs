@@ -23,5 +23,11 @@ namespace MoHelperTerminal.View
             IsPresented = false;
             Detail = new NavigationPage(new IODocPage());
         }
+
+        private void Setting_Clicked(object sender, EventArgs e)
+        {
+            IsPresented = false;
+            Detail = new NavigationPage(new SettingPage());
+        }
     }
 }

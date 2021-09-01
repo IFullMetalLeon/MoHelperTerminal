@@ -40,7 +40,7 @@
                     </StackLayout>
                 </Frame>
 
-                <Grid>
+                <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -59,9 +59,9 @@
                             <Label Grid.Column="1" Text="Прием товара" FontSize="16" TextColor="#000000" VerticalOptions="Center" Margin="20,0,0,0"/>
                         </Grid>
                     </Frame>
-                    <Frame Grid.Row="0" HasShadow="False" Margin="1" Padding="0">
+                    <Frame Grid.Row="1" HasShadow="False" Margin="1" Padding="0">
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="IODoc_Clicked"/>
+                            <TapGestureRecognizer Tapped="Setting_Clicked"/>
                         </Frame.GestureRecognizers>
                         <Grid>
                             <Grid.ColumnDefinitions>
