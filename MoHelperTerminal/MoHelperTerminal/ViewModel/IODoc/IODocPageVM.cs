@@ -36,6 +36,8 @@ namespace MoHelperTerminal.ViewModel.IODoc
             DocRn = "0";
             boxRn = "0";
             quant = "0";
+            TotalSpecDo = 0;
+            TotalSpecNeed = 0;
             isBoxQuantShow = false;
         }
 
@@ -92,13 +94,13 @@ namespace MoHelperTerminal.ViewModel.IODoc
                     DocRn = resp.doc_rn;
                     quant = "0";
                     HttpController.SendGetIODocHead(DocRn);
-                    
+
                 }
                 if (resp.type == "2")  //Коробка
                 {
                     boxRn = resp.box_rn;
                     quant = resp.pack_quant;
-                    checkBoxQuant("",resp.comment + "\n\nВ коробке " + quant + " бутылок?");
+                    checkBoxQuant("", resp.comment + "\n\nВ коробке " + quant + " бутылок?");
                 }
                 if (resp.type == "3")  //Марка
                 {
@@ -110,7 +112,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
                 }
                 if (resp.type == "5")  //Кол-во в коробке не совпадает с кол-вом по документу
                 {
-                    
+
                 }
                 if (!String.IsNullOrEmpty(resp.nommodif))
                 {
@@ -133,7 +135,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
             if (content.Length > 2)
             {
                 List<GetIODocHeadResponce> resp = JsonConvert.DeserializeObject<List<GetIODocHeadResponce>>(content, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                
+
                 DocNumb = resp[0].DOC_NUM;
                 DocDate = resp[0].DOC_DATE;
             }
@@ -145,15 +147,20 @@ namespace MoHelperTerminal.ViewModel.IODoc
         public void fillList(string content)
         {
             ListSpec.Clear();
+            TotalSpecDo = 0;
+            TotalSpecNeed = 0;
             if (content.Length > 2)
             {
                 List<GetIODocSpecResponce> resp = JsonConvert.DeserializeObject<List<GetIODocSpecResponce>>(content, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                foreach(GetIODocSpecResponce cur in resp)
+                foreach (GetIODocSpecResponce cur in resp)
                 {
                     ListSpec.Add(new IODocSpec { Rn = cur.NOMMODIF, ModifName = cur.MODIF_NAME, QuantFact = cur.QUANT_FACT, Quant = cur.QUANT_TCS });
+                    TotalSpecNeed += Convert.ToInt32(cur.QUANT_TCS);
+                    TotalSpecDo += Convert.ToInt32(cur.QUANT_FACT);
                 }
                 if (SelectedSpec != null && SelectedSpec.Rn != null)
                     MessagingCenter.Send<string, IODocSpec>("SelectedSpecXaml", "Scroll", SelectedSpec);
+                OnPropertyChanged("TotalSpecDoTC");
             }
             else
                 showError("Ошибка получения спецификаций документа");
@@ -163,10 +170,10 @@ namespace MoHelperTerminal.ViewModel.IODoc
         public void showMark()
         {
             if (SelectedSpec != null && SelectedSpec.Rn != null)
-                Navigation.PushAsync(new IODocMarkPage(DocRn,SelectedSpec.Rn,SelectedSpec.ModifName));
+                Navigation.PushAsync(new IODocMarkPage(DocRn, SelectedSpec.Rn, SelectedSpec.ModifName));
         }
 
-        public async void checkBoxQuant(string title,string content)
+        public async void checkBoxQuant(string title, string content)
         {
             var result = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
             {
@@ -176,7 +183,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
                 CancelText = "Нет"
             });
             if (result)
-                HttpController.SendPostDocSpec(TerminalNumber, "0", DocRn, boxRn, "1", quant, "PostIODocSend");           
+                HttpController.SendPostDocSpec(TerminalNumber, "0", DocRn, boxRn, "1", quant, "PostIODocSend");
             else
                 HttpController.SendPostDocSpec(TerminalNumber, "0", DocRn, boxRn, "1", "-1", "PostIODocSend");
         }
@@ -194,6 +201,22 @@ namespace MoHelperTerminal.ViewModel.IODoc
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
 
+        public bool DocEnable
+        {
+            get
+            {
+                return DocRn != "0";
+            }
+        }
+
+        public bool DocDisable
+        {
+            get
+            {
+                return DocRn == "0";
+            }
+        }
+
         private string _docRn { get; set; }
         public string DocRn
         {
@@ -207,6 +230,8 @@ namespace MoHelperTerminal.ViewModel.IODoc
                 {
                     _docRn = value;
                     OnPropertyChanged("DocRn");
+                    OnPropertyChanged("DocEnable");
+                    OnPropertyChanged("DocDisable");
                 }
             }
         }
@@ -216,10 +241,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
         {
             get
             {
-                if (DocRn == "0")
-                    return "Сканируйте штрихкод на документе";
-                else
-                    return _docNumb;
+                return _docNumb;
             }
             set
             {
@@ -236,7 +258,10 @@ namespace MoHelperTerminal.ViewModel.IODoc
         {
             get
             {
-                return _docDate;
+                if (DocRn == "0")
+                    return "";
+                else
+                    return _docDate;
             }
             set
             {
@@ -265,6 +290,59 @@ namespace MoHelperTerminal.ViewModel.IODoc
             }
         }
 
+        private int _totalSpecDo{get;set;}
+        public int TotalSpecDo
+        {
+            get
+            {
+                return _totalSpecDo;
+            }
+            set
+            {
+                if (_totalSpecDo != value)
+                {
+                    _totalSpecDo = value;
+                    OnPropertyChanged("TotalSpecDo");
+                    OnPropertyChanged("TotalSpecDoTC");
+                }
+            }
+        }
+
+        private int _totalSpecNeed { get; set; }
+        public int TotalSpecNeed
+        {
+            get
+            {
+                return _totalSpecNeed;
+            }
+            set
+            {
+                if (_totalSpecNeed != value)
+                {
+                    _totalSpecNeed = value;
+                    OnPropertyChanged("TotalSpecNeed");
+                }
+            }
+        }
+
+        public string TotalSpecDoTC
+        {
+            get
+            {
+                if (TotalSpecDo != TotalSpecNeed)
+                    return "Red";
+                else
+                    return "Green";
+            }
+        }
+
+        public string TotalSpecNeedTC
+        {
+            get
+            {
+                return "Green";
+            }
+        }
         private IODocSpec _selectedSpec { get; set; }
         public IODocSpec SelectedSpec
         {

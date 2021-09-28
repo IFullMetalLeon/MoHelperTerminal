@@ -8,29 +8,63 @@
              Title="Прием товара"
              x:Name="IODocPageView">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding Path=BindingContext.DocNumb, Source={x:Reference IODocPageView}}" HorizontalTextAlignment="Center"/>
-            <Label Text="{Binding Path=BindingContext.DocDate, Source={x:Reference IODocPageView}}" HorizontalTextAlignment="Center"/>
-            <ListView x:Name="ioDocSpec"
+        <StackLayout BackgroundColor="White">
+            <Frame BackgroundColor="White" BorderColor="Black" CornerRadius="10" Margin="5" Padding="0" HasShadow="True">
+                <StackLayout>
+                    <Label Text="Сканируйте штрихкод на документе" IsVisible="{Binding Path=BindingContext.DocDisable, Source={x:Reference IODocPageView}}" HorizontalOptions="Center" TextColor="Black"/>
+                    <Label HorizontalOptions="Center" IsVisible="{Binding Path=BindingContext.DocEnable, Source={x:Reference IODocPageView}}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding Path=BindingContext.DocNumb, Source={x:Reference IODocPageView}}" TextColor="Black"/>
+                                <Span Text=" от " TextColor="Black"/>
+                                <Span Text="{Binding Path=BindingContext.DocDate, Source={x:Reference IODocPageView}}" TextColor="Black"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label HorizontalOptions="Center" IsVisible="{Binding Path=BindingContext.DocEnable, Source={x:Reference IODocPageView}}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Позиций  " TextColor="Black"/>
+                                <Span Text="{Binding Path=BindingContext.TotalSpecDo, Source={x:Reference IODocPageView}}" TextColor="{Binding Path=BindingContext.TotalSpecDoTC, Source={x:Reference IODocPageView}}"/>
+                                <Span Text=" / " TextColor="Black"/>
+                                <Span Text="{Binding Path=BindingContext.TotalSpecNeed, Source={x:Reference IODocPageView}}" TextColor="{Binding Path=BindingContext.TotalSpecNeedTC, Source={x:Reference IODocPageView}}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Button Text="Отправить" CornerRadius="30" Margin="10,5,10,5" IsVisible="{Binding Path=BindingContext.DocEnable, Source={x:Reference IODocPageView}}" BackgroundColor="{Binding Path=BindingContext.ButtonSendBC, Source={x:Reference IODocPageView}}" TextColor="Black"/>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="White" BorderColor="Black" CornerRadius="10" Margin="5,0,5,5" Padding="0" HasShadow="True">
+                <ListView x:Name="ioDocSpec"
                       ItemsSource="{Binding ListSpec}"
-                      SeparatorVisibility="Default"
+                      SeparatorVisibility="None"
                       HasUnevenRows="True"
                       SelectedItem="{Binding SelectedSpec,Mode=TwoWay}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <StackLayout Orientation="Horizontal" >
-                                    <Label Text="{Binding ModifName}"/>
-                                    <Label Text="{Binding QuantFact}"/>
-                                    <Label Text="{Binding Quant}"/>
-                                    <Button Text="W" IsVisible="{Binding IsSelected}" Command="{Binding Path=BindingContext.OpenMarkPage, Source={x:Reference IODocPageView}}"/>
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout Orientation="Horizontal" Margin="3,1,3,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="9*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0" Text="{Binding ModifName}" TextColor="Black"/>
+                                            <Label Grid.Column="1" Text="{Binding QuantFact}" TextColor="{Binding QuantFactTC}"/>
+                                            <Label Grid.Column="2" Text="{Binding Quant}" TextColor="{Binding QuantTC}"/>
+                                        </Grid>
+
+                                        <Button FontFamily="Segoe MDL2 Assets.ttf#Segoe MDL2 Assets" Text="&#xE71E;" FontSize="20" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsSelected}" Command="{Binding Path=BindingContext.OpenMarkPage, Source={x:Reference IODocPageView}}"/>
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
         </StackLayout>
+            
     </ContentPage.Content>
 </ContentPage>

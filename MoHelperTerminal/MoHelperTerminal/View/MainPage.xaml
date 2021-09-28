@@ -68,7 +68,7 @@
                                 <ColumnDefinition Width="20"/>
                                 <ColumnDefinition Width="8*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" FontFamily="Segoe MDL2 Assets.ttf#Segoe MDL2 Assets" Text="&#xE7BF;" FontSize="20" VerticalTextAlignment="Center"/>
+                            <Label Grid.Column="0" FontFamily="Segoe MDL2 Assets.ttf#Segoe MDL2 Assets" Text="&#xE713;" FontSize="20" VerticalTextAlignment="Center"/>
                             <Label Grid.Column="1" Text="Настройки" FontSize="16" TextColor="#000000" VerticalOptions="Center" Margin="20,0,0,0"/>
                         </Grid>
                     </Frame>

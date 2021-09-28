@@ -65,6 +65,14 @@ namespace MoHelperTerminal.Model.IODoc
             }
         }
 
+        public string QuantTC
+        {
+            get
+            {
+                return "Green";
+            }
+        }      
+
         private string _quantFact { get; set; }
         public string QuantFact
         {
@@ -78,10 +86,21 @@ namespace MoHelperTerminal.Model.IODoc
                 {
                     _quantFact = value;
                     OnPropertyChanged("QuantFact");
+                    OnPropertyChanged("QuantFactTC");
                 }
             }
         }
 
+        public string QuantFactTC
+        {
+            get
+            {
+                if (QuantFact != Quant)
+                    return "Red";
+                else
+                    return "Green";
+            }
+        }
         private bool _isSelected { get; set; }
         public bool IsSelected
         {
