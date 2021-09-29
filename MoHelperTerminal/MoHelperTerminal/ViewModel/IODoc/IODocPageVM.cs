@@ -161,6 +161,7 @@ namespace MoHelperTerminal.ViewModel.IODoc
                 if (SelectedSpec != null && SelectedSpec.Rn != null)
                     MessagingCenter.Send<string, IODocSpec>("SelectedSpecXaml", "Scroll", SelectedSpec);
                 OnPropertyChanged("TotalSpecDoTC");
+                OnPropertyChanged("SendButtonTC");             
             }
             else
                 showError("Ошибка получения спецификаций документа");
@@ -341,6 +342,17 @@ namespace MoHelperTerminal.ViewModel.IODoc
             get
             {
                 return "Green";
+            }
+        }
+
+        public string SendButtonTC
+        {
+            get
+            {
+                if (TotalSpecDo == TotalSpecNeed && TotalSpecDo > 0)
+                    return "Green";
+                else
+                    return "Red";
             }
         }
         private IODocSpec _selectedSpec { get; set; }

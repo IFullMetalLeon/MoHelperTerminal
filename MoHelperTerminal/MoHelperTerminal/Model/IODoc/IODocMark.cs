@@ -100,6 +100,14 @@ namespace MoHelperTerminal.Model.IODoc
             }
         }
 
+        public bool IsNotScaned
+        {
+            get
+            {
+                return !IsScaned;
+            }
+        }
+
         private string _boxNum { get; set; }
         public string BoxNum
         {
@@ -125,6 +133,17 @@ namespace MoHelperTerminal.Model.IODoc
                     return "Green";
                 else
                     return "Orange";
+            }
+        }
+
+        public string MarkCheckTC
+        {
+            get
+            {
+                if (IsScaned)
+                    return "Green";
+                else
+                    return "Red";
             }
         }
 

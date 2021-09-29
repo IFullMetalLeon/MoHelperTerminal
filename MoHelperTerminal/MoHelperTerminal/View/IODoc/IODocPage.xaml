@@ -31,7 +31,16 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Button Text="Отправить" CornerRadius="30" Margin="10,5,10,5" IsVisible="{Binding Path=BindingContext.DocEnable, Source={x:Reference IODocPageView}}" BackgroundColor="{Binding Path=BindingContext.ButtonSendBC, Source={x:Reference IODocPageView}}" TextColor="Black"/>
+                    <Frame BackgroundColor="#F5F5DC" CornerRadius="90" Margin="10,5,10,5" IsVisible="{Binding Path=BindingContext.DocEnable, Source={x:Reference IODocPageView}}"
+                           HeightRequest="40" WidthRequest="40" Padding="10">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer/>
+                        </Frame.GestureRecognizers>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Label Text="Отправить" TextColor="Black"/>
+                            <Label FontFamily="Segoe MDL2 Assets.ttf#Segoe MDL2 Assets" Text="&#xE725;" FontSize="20" VerticalTextAlignment="Center" TextColor="{Binding Path=BindingContext.SendButtonTC, Source={x:Reference IODocPageView}}"/>
+                        </StackLayout>
+                    </Frame>
                 </StackLayout>
             </Frame>
             <Frame BackgroundColor="White" BorderColor="Black" CornerRadius="10" Margin="5,0,5,5" Padding="0" HasShadow="True">
@@ -51,12 +60,15 @@
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0" Text="{Binding ModifName}" TextColor="Black"/>
-                                            <Label Grid.Column="1" Text="{Binding QuantFact}" TextColor="{Binding QuantFactTC}"/>
-                                            <Label Grid.Column="2" Text="{Binding Quant}" TextColor="{Binding QuantTC}"/>
+                                            <Label Grid.Column="0" Text="{Binding ModifName}" TextColor="Black" VerticalTextAlignment="Center"/>
+                                            <Label Grid.Column="1" Text="{Binding QuantFact}" TextColor="{Binding QuantFactTC}" VerticalTextAlignment="Center"/>
+                                            <Label Grid.Column="2" Text="{Binding Quant}" TextColor="{Binding QuantTC}" VerticalTextAlignment="Center"/>
                                         </Grid>
 
-                                        <Button FontFamily="Segoe MDL2 Assets.ttf#Segoe MDL2 Assets" Text="&#xE71E;" FontSize="20" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsSelected}" Command="{Binding Path=BindingContext.OpenMarkPage, Source={x:Reference IODocPageView}}"/>
+                                        <Button FontFamily="Segoe MDL2 Assets.ttf#Segoe MDL2 Assets" Text="&#xE71E;" BackgroundColor="#F5F5DC" CornerRadius="90" FontSize="20" VerticalOptions="CenterAndExpand" 
+                                                HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsSelected}" 
+                                                HeightRequest="50" WidthRequest="50"                                               
+                                                Command="{Binding Path=BindingContext.OpenMarkPage, Source={x:Reference IODocPageView}}"/>
                                     </StackLayout>
                                 </ViewCell.View>
                             </ViewCell>
